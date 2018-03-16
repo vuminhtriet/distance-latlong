@@ -23,27 +23,25 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
     return deg * (Math.PI/180)
   }
 
-var id = 2;
-
-app.get('/listUsers', function (req, res) {
-    fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
-        console.log( data );
-        res.end( data );
-    });
- })
-
 app.get('/lat1='+':lat1'+'&long1='+':long1'+'&lat2='+':lat2'+'&long2='+':long2', function (req, res) {
-    lat1 = parseInt(req.params.lat1);
-    long1 = parseInt(req.params.long1);
-    lat2 = parseInt(req.params.lat2);
-    long2 = parseInt(req.params.long2);
+    lat1 = Number(req.params.lat1);
+    long1 = Number(req.params.long1);
+    lat2 = Number(req.params.lat2);
+    long2 = Number(req.params.long2);
     distance = getDistanceFromLatLonInKm(lat1,long1,lat2,long2)
     if (distance){
-        status = "OK";
+        if (Math.abs(lat1) <= 90 && Math.abs(lat2) <= 90 && Math.abs(long1) <= 180 && Math.abs(long2) <= 180){
+            status = "OK";
+        }
+        else{
+            distance = null;
+            status = "Wrong latlng";
+        }
     }
     else{
-        status = "Error";
+        status = "Wrong latlng";
     }
+    
     fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
         var user = {
             "lat1" : lat1,
