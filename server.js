@@ -39,9 +39,14 @@ app.get('/lat1='+':lat1'+'&long1='+':long1'+'&lat2='+':lat2'+'&long2='+':long2',
         }
     }
     else{
-        status = "Wrong latlng";
+        if (distance == 0){
+            status = "OK";
+        }
+        else{
+            status = "Wrong latlng";
+        }
     }
-    
+
     fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
         var user = {
             "lat1" : lat1,
