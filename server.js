@@ -65,7 +65,7 @@ app.get('/lat1='+':lat1'+'&long1='+':long1'+'&lat2='+':lat2'+'&long2='+':long2',
     });
 })
 
-var server = app.listen(8081, function () {
+var server = app.listen(process.env.PORT || 8081, function () {
 
   var host = server.address().address
   var port = server.address().port
